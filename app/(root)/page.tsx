@@ -1,9 +1,5 @@
-const Homepage = () => {
-  return (
-    <>
-      <p>Sparkle Cart</p>
-    </>
-  );
+const Homepage = async () => {
+  return <>Sparkle Cart</>;
 };
 
 export default Homepage;
