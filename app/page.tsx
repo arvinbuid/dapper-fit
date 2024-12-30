@@ -1,5 +1,11 @@
+import {Button} from "@/components/ui/button";
+
 const Homepage = () => {
-  return <>Sparkle Cart</>;
+  return (
+    <>
+      <Button>Click Me!</Button>
+    </>
+  );
 };
 
 export default Homepage;
