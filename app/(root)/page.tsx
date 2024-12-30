@@ -1,9 +1,7 @@
-import {Button} from "@/components/ui/button";
-
 const Homepage = () => {
   return (
     <>
-      <Button>Click Me!</Button>
+      <p>Sparkle Cart</p>
     </>
   );
 };
