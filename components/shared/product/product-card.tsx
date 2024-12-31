@@ -2,13 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
+import {Product} from "@/types";
 import ProductPrice from "./product-price";
 
-interface Product {
-  product: any;
+interface ProductProps {
+  product: Product;
 }
 
-const ProductCard = ({product}: Product) => {
+const ProductCard = ({product}: ProductProps) => {
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader className='p-0 items-center'>
