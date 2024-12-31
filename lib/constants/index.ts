@@ -1,4 +1,4 @@
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Sparkle Cart";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Dapper Fit";
 
 export const APP_DESCRIPTION =
   process.env.NEXT_PUBLIC_APP_DESCRIPTION ||

@@ -3,7 +3,7 @@ const Footer = () => {
 
   return (
     <footer className='border-t'>
-      <div className='p-5 flex-center'>{`© ${currentYear} Sparkle Cart. All Rights Reserved.`}</div>
+      <div className='p-5 flex-center'>{`© ${currentYear} Dapper Fit. All Rights Reserved.`}</div>
     </footer>
   );
 };
