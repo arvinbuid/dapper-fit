@@ -5,6 +5,7 @@ import {Card, CardContent} from "@/components/ui/card";
 import ProductPrice from "@/components/shared/product/product-price";
 import {getProductBySlug} from "@/lib/actions/product.actions";
 import {notFound} from "next/navigation";
+import ProductImages from "@/components/shared/product/product-image";
 
 const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
   const {slug} = await props.params;
@@ -17,7 +18,9 @@ const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
       <section>
         <div className='grid grid-cols-1 md:grid-cols-5'>
           {/* Images Column */}
-          <div className='col-span-2'>{/* Images Component */}</div>
+          <div className='col-span-2'>
+            <ProductImages images={product.images} />
+          </div>
           {/* Details Column */}
           <div className='col-span-2 p-5'>
             <div className='flex flex-col gap-6'>
