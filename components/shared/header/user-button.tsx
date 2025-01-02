@@ -32,7 +32,7 @@ const UserButton = async () => {
         <DropdownMenuTrigger asChild>
           <div className='flex items-center'>
             <Button
-              className='relative w-8 h-8 ml-2 rounded-full flex items-center justify-center bg-gray-200'
+              className='relative w-8 h-8 ml-2 rounded-full flex items-center justify-center text-slate-900 bg-gray-200'
               variant='ghost'
             >
               {nameFirstLetter}

@@ -41,6 +41,8 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       confirmPassword: formData.get("confirmPassword"),
     });
 
+    const plainPassword = user.password;
+
     // Hash the password
     user.password = hashSync(user.password, 12);
 
@@ -56,7 +58,7 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
     // Sign in user after sign up
     await signIn("credentials", {
       email: user.email,
-      password: user.password,
+      password: plainPassword,
     });
 
     return {success: true, message: "User signed up successfully."};
