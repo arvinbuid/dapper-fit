@@ -6,9 +6,12 @@ import {getProductBySlug} from "@/lib/actions/product.actions";
 import {notFound} from "next/navigation";
 import ProductImages from "@/components/shared/product/product-image";
 import AddToCart from "@/components/shared/product/add-to-cart";
+import {getUserCart} from "@/lib/actions/cart.actions";
 
 const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
   const {slug} = await props.params;
+
+  const cart = await getUserCart();
 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
@@ -48,7 +51,7 @@ const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
                   <p>Price</p>
                   <ProductPrice value={Number(product.price)} />
                 </div>
-                <div className='mb-2 flex justify-between'>
+                <div className='mb-3 flex justify-between'>
                   <p>Stock</p>
                   {product.stock > 0 ? (
                     <Badge variant='outline'>In Stock</Badge>
@@ -58,6 +61,7 @@ const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
                 </div>
                 {product.stock > 0 && (
                   <AddToCart
+                    cart={cart}
                     item={{
                       productId: product.id,
                       name: product.name,
