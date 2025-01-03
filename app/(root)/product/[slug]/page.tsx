@@ -1,11 +1,11 @@
 import {Badge} from "@/components/ui/badge";
-import {Button} from "@/components/ui/button";
 import {Card, CardContent} from "@/components/ui/card";
 
 import ProductPrice from "@/components/shared/product/product-price";
 import {getProductBySlug} from "@/lib/actions/product.actions";
 import {notFound} from "next/navigation";
 import ProductImages from "@/components/shared/product/product-image";
+import AddToCart from "@/components/shared/product/add-to-cart";
 
 const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
   const {slug} = await props.params;
@@ -56,7 +56,18 @@ const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
                     <Badge variant='destructive'>Out of Stock</Badge>
                   )}
                 </div>
-                {product.stock > 0 && <Button className='w-full mt-1'>Add To Cart</Button>}
+                {product.stock > 0 && (
+                  <AddToCart
+                    item={{
+                      productId: product.id,
+                      name: product.name,
+                      price: product.price,
+                      slug: product.slug,
+                      qty: 1,
+                      image: product!.images[0],
+                    }}
+                  />
+                )}
               </CardContent>
             </Card>
           </div>
