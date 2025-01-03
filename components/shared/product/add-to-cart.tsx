@@ -18,14 +18,14 @@ const AddToCart = ({item}: {item: CartItem}) => {
     if (!res.success) {
       toast({
         variant: "destructive",
-        description: res.message,
+        title: res.message,
       });
       return;
     }
 
     // Handle success add to cart
     toast({
-      title: `${item.name} added to cart`,
+      title: res.message,
       description: "Go to your cart to checkout your order.",
       action: (
         <ToastAction
