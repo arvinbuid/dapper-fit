@@ -32,3 +32,14 @@ export function formatError(error: any) {
     return typeof error.message === "string" ? error.message : JSON.stringify(error.message);
   }
 }
+
+// Round number into 2 decimal places
+export function roundToTwo(value: number | string) {
+  if (typeof value === "number") {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  } else if (typeof value === "string") {
+    return Math.round(Number(value + Number.EPSILON) * 100) / 100;
+  } else {
+    throw new Error("Value is not a number or a string.");
+  }
+}
