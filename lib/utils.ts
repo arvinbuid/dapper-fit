@@ -43,3 +43,20 @@ export function roundToTwo(value: number | string) {
     throw new Error("Value is not a number or a string.");
   }
 }
+
+const CURRENCY_FORMATTER = new Intl.NumberFormat("fil-PH", {
+  currency: "PHP",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
+
+// Format currency using the formatter above
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === "number") {
+    return CURRENCY_FORMATTER.format(amount);
+  } else if (typeof amount === "string") {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  } else {
+    return "Not a number!";
+  }
+}

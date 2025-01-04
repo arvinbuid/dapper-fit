@@ -10,6 +10,8 @@ import Link from "next/link";
 import Image from "next/image";
 import {Table, TableHeader, TableRow, TableHead, TableBody, TableCell} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
+import {Card, CardContent} from "@/components/ui/card";
+import {formatCurrency} from "@/lib/utils";
 
 const CartTable = ({cart}: {cart?: Cart}) => {
   const router = useRouter();
@@ -25,7 +27,7 @@ const CartTable = ({cart}: {cart?: Cart}) => {
         </div>
       ) : (
         <div className='grid md:grid-cols-5 gap-5 mt-3'>
-          <div className='overflow-x-auto md:col-span-3'>
+          <div className='overflow-x-auto md:col-span-4'>
             <Table>
               <TableHeader>
                 <TableRow>
@@ -100,6 +102,30 @@ const CartTable = ({cart}: {cart?: Cart}) => {
               </TableBody>
             </Table>
           </div>
+          <Card>
+            <CardContent className='p-3 gap-4'>
+              <div className='pb-3 text-md'>
+                Subtotal ({cart.items.reduce((acc, cur) => acc + cur.qty, 0)}): {""}
+                <span className='font-bold'>{formatCurrency(cart.itemsPrice)}</span>
+              </div>
+              <Button
+                className='w-full'
+                disabled={isPending}
+                onClick={() =>
+                  startTransition(() => {
+                    router.push("/shipping-address");
+                  })
+                }
+              >
+                {isPending ? (
+                  <Loader className='w-4 h-4 animate-spin' />
+                ) : (
+                  <ArrowRight className='w-4 h-4' />
+                )}
+                Proceed to checkout
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       )}
     </>
