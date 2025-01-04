@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation";
 import {useToast} from "@/hooks/use-toast";
 import {useTransition} from "react";
 import {AddItemToCart, removeItemFromCart} from "@/lib/actions/cart.actions";
-import {ArrowRight, Plus, Minus, Loader, ShoppingCart} from "lucide-react";
+import {ArrowRight, Plus, Minus, Loader} from "lucide-react";
 import {Cart} from "@/types";
 import Link from "next/link";
 import Image from "next/image";
@@ -102,6 +102,7 @@ const CartTable = ({cart}: {cart?: Cart}) => {
               </TableBody>
             </Table>
           </div>
+          {/* Subtotal Card */}
           <Card>
             <CardContent className='p-3 gap-4'>
               <div className='pb-3 text-md'>

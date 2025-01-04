@@ -17,3 +17,12 @@ export const signUpDefaultValue = {
   password: "",
   confirmPassword: "",
 };
+
+export const shippingAddressDefaultValue = {
+  // fullName, streetAddress, city, postalCode, country
+  fullName: "John Doe",
+  streetAddress: "123 Example Street",
+  city: "Anytown",
+  postalCode: "1234",
+  country: "Philippines",
+};
