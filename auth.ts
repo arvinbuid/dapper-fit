@@ -67,9 +67,10 @@ const config = {
 
       return session;
     },
-    async jwt({token, user}: any) {
+    async jwt({token, user, trigger}: any) {
       // Assign user fields to token
       if (user) {
+        token.id = user.id;
         token.role = user.role;
 
         if (user.name === "NO_NAME") {
@@ -79,6 +80,33 @@ const config = {
             where: {id: user.id},
             data: {name: token.name},
           });
+        }
+
+        // Persist session cart
+        if (trigger === "signIn" || trigger === "signUp") {
+          // Get cookie object, get sessionCartId
+          const cookieObject = await cookies();
+          const sessionCartId = cookieObject.get("sessionCartId")?.value;
+
+          // If there is sessionCartId, get it from the db
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: {sessionCartId},
+            });
+
+            if (sessionCart) {
+              // delete current user cart
+              await prisma.cart.deleteMany({
+                where: {userId: user.id},
+              });
+
+              // Assign new cart
+              await prisma.cart.update({
+                where: {id: sessionCart.id},
+                data: {userId: user.id},
+              });
+            }
+          }
         }
       }
 
