@@ -1,12 +1,17 @@
 "use server";
 
-import {shippingAddressSchema, signInFormSchema, signUpFormSchema} from "../validators";
+import {
+  paymentMethodSchema,
+  shippingAddressSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "../validators";
 import {auth, signIn, signOut} from "@/auth";
 import {hashSync} from "bcrypt-ts-edge";
 import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {prisma} from "@/db/prisma";
 import {formatError} from "../utils";
-import {ShippingAddress} from "@/types";
+import {PaymentMethod, ShippingAddress} from "@/types";
 
 export async function signInWithCredentials(prevState: unknown, formData: FormData) {
   try {
@@ -98,7 +103,7 @@ export async function updateUserAddress(data: ShippingAddress) {
       where: {id: session?.user?.id},
     });
 
-    if (!currentUser) throw new Error("User cannot be found.");
+    if (!currentUser) throw new Error("User not found.");
 
     // Validate address
     const address = shippingAddressSchema.parse(data);
@@ -107,6 +112,37 @@ export async function updateUserAddress(data: ShippingAddress) {
     await prisma.user.update({
       where: {id: currentUser.id},
       data: {address},
+    });
+
+    return {
+      success: true,
+      message: "User updated successfully.",
+    };
+  } catch (error) {
+    return {success: false, message: formatError(error)};
+  }
+}
+
+// Update user's payment method
+export async function updateUserPaymentMethod(data: PaymentMethod) {
+  try {
+    // Get user session
+    const session = await auth();
+
+    // Get current user
+    const currentUser = await prisma.user.findFirst({
+      where: {id: session?.user?.id},
+    });
+
+    if (!currentUser) throw new Error("User not found.");
+
+    // Validate payment method
+    const paymentMethod = paymentMethodSchema.parse(data);
+
+    // Update the database
+    await prisma.user.update({
+      where: {id: currentUser.id},
+      data: {paymentMethod: paymentMethod.type},
     });
 
     return {
