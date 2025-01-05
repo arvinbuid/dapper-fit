@@ -30,6 +30,6 @@ export const shippingAddressDefaultValue = {
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   ? process.env.PAYMENT_METHODS.split(",")
   : [];
-export const DEFAULT_METHODS = process.env.DEFAULT_PAYMENT_METHOD
+export const DEFAULT_PAYMENT_METHOD = process.env.DEFAULT_PAYMENT_METHOD
   ? process.env.DEFAULT_PAYMENT_METHOD
   : "Paypal";
