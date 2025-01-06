@@ -20,16 +20,16 @@ export const signUpDefaultValue = {
 
 export const shippingAddressDefaultValue = {
   // fullName, streetAddress, city, postalCode, country
-  fullName: "",
-  streetAddress: "",
-  city: "",
-  postalCode: "",
-  country: "",
+  fullName: "Ray",
+  streetAddress: "123 Main St",
+  city: "Anytown",
+  postalCode: "1234",
+  country: "Philippines",
 };
 
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
-  ? process.env.PAYMENT_METHODS.split(",")
-  : [];
+  ? process.env.PAYMENT_METHODS.split(", ")
+  : ["Paypal", "CashOnDelivery"];
 export const DEFAULT_PAYMENT_METHOD = process.env.DEFAULT_PAYMENT_METHOD
   ? process.env.DEFAULT_PAYMENT_METHOD
   : "Paypal";

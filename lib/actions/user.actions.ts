@@ -11,7 +11,8 @@ import {hash} from "@/lib/encrypt";
 import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {prisma} from "@/db/prisma";
 import {formatError} from "../utils";
-import {PaymentMethod, ShippingAddress} from "@/types";
+import {ShippingAddress} from "@/types";
+import {z} from "zod";
 
 export async function signInWithCredentials(prevState: unknown, formData: FormData) {
   try {
@@ -124,7 +125,7 @@ export async function updateUserAddress(data: ShippingAddress) {
 }
 
 // Update user's payment method
-export async function updateUserPaymentMethod(data: PaymentMethod) {
+export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethodSchema>) {
   try {
     // Get user session
     const session = await auth();
