@@ -2,6 +2,7 @@ import {z} from "zod";
 import {formatNumberWithDecimal} from "./utils";
 import {PAYMENT_METHODS} from "./constants";
 
+// Schema for prices to display exactly two decimal places
 const currency = z
   .string()
   .refine(
@@ -85,3 +86,28 @@ export const paymentMethodSchema = z
     path: ["type"],
     message: "Invalid payment method",
   });
+
+// Inserting Order Schema
+export const insertOrderSchema = z.object({
+  // userId, itemsPrice, shippingPrice, taxPrice, totalPrice, paymentMethod, shippingAddress
+  userId: z.string().min(1, "User is required"),
+  itemsPrice: currency,
+  shippingPrice: currency,
+  taxPrice: currency,
+  totalPrice: currency,
+  paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
+    message: "Invalid Payment Method",
+  }),
+  shippingAddressSchema: shippingAddressSchema,
+});
+
+// Inserting Order Item Schema
+export const insertOrderItemSchema = z.object({
+  // productId, qty, name, slug, image, price
+  productId: z.string(),
+  qty: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  image: z.string(),
+  price: currency,
+});
