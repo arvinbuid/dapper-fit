@@ -25,3 +25,5 @@ async function generateAcessToken() {
     throw new Error(errorMessage);
   }
 }
+
+export {generateAcessToken};
