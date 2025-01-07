@@ -105,7 +105,7 @@ export const insertOrderSchema = z.object({
 export const insertOrderItemSchema = z.object({
   // productId, qty, name, slug, image, price
   productId: z.string(),
-  qty: z.string(),
+  qty: z.number(),
   name: z.string(),
   slug: z.string(),
   image: z.string(),
