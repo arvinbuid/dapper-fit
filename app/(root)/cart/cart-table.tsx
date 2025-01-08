@@ -96,7 +96,7 @@ const CartTable = ({cart}: {cart?: Cart}) => {
                         </Button>
                       </div>
                     </TableCell>
-                    <TableCell className='text-right'>₱{item.price}</TableCell>
+                    <TableCell className='text-right'>${item.price}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
