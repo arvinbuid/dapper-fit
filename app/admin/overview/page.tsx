@@ -7,6 +7,7 @@ import {formatCurrency, formatDateTime, formatNumber} from "@/lib/utils";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
+import Charts from "./charts";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -71,7 +72,13 @@ const AdminOverviewPage = async () => {
           <CardHeader>
             <CardTitle className='text-2xl'>Overview</CardTitle>
           </CardHeader>
-          <CardContent>{/* Chart Here*/}</CardContent>
+          <CardContent>
+            <Charts
+              data={{
+                salesData: summary.salesData,
+              }}
+            ></Charts>
+          </CardContent>
         </Card>
         <Card className='col-span-3'>
           <CardHeader>
