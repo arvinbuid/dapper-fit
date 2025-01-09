@@ -15,17 +15,17 @@ export default function AdminLayout({
       <div className='flex flex-col'>
         <div className='border-b container mx-auto'>
           <div className='flex items-center h-16 px-4'>
-            <Link href='/' className='w-22'>
+            <Link href='/' className='hidden md:block w-22'>
               <Image src='/images/logo.svg' width={48} height={48} alt={APP_NAME}></Image>
             </Link>
             <MainNav className='mx-6' />
             {/* Main Nav */}
-            <div className='ml-auto items-center flex space-x-4'>
+            <div className='ml-auto flex items-center space-x-4'>
               <div>
                 <Input
                   type='search'
                   placeholder='Search...'
-                  className='md:w-[100px] lg:w-[300px]'
+                  className='hidden md:block md:w-[100px] lg:w-[300px]'
                 />
               </div>
               <Menu />
