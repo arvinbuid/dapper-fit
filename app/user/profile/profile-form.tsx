@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/button";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {useToast} from "@/hooks/use-toast";
+import {updateUserProfile} from "@/lib/actions/user.actions";
 import {updateUserProfileSchema} from "@/lib/validators";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useSession} from "next-auth/react";
@@ -23,8 +24,32 @@ const ProfileForm = () => {
 
   const {toast} = useToast();
 
-  const onSubmit = () => {
-    return;
+  const onSubmit = async (values: z.infer<typeof updateUserProfileSchema>) => {
+    const res = await updateUserProfile(values);
+
+    if (!res.success) {
+      return toast({
+        variant: "destructive",
+        description: res.message,
+      });
+    }
+
+    // Store new session
+    const newSession = {
+      ...session,
+      user: {
+        ...session?.user,
+        name: values.name,
+      },
+    };
+
+    // Update the user
+    await update(newSession);
+
+    return toast({
+      variant: "default",
+      description: res.message,
+    });
   };
 
   return (
