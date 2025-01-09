@@ -112,11 +112,20 @@ export const insertOrderItemSchema = z.object({
   price: currency,
 });
 
-// Payment Result Schema
+// Paypal Payment Result Schema
 export const paymentResultSchema = z.object({
   // id, status, email_address, pricePaid
   id: z.string(),
   status: z.string(),
   email_address: z.string(),
   pricePaid: z.string(),
+});
+
+// Updating User Profile Schema
+export const updateUserProfileSchema = z.object({
+  name: z.string().min(3, "Name must be atleast 3 characters long."),
+  email: z
+    .string()
+    .email("Invalid email format.")
+    .min(3, "Email must be atleast 5 characters long."),
 });
