@@ -202,7 +202,7 @@ async function updateOrderToPaid({
 
   if (!order) throw new Error("Order not found.");
 
-  if (order.isPaid) throw new Error("Order aldready paid.");
+  if (order.isPaid) throw new Error("Order already paid.");
 
   // Transaction to update order and account for the product stock
   await prisma.$transaction(async (tx) => {
@@ -340,6 +340,59 @@ export async function deleteOrder(id: string) {
     return {
       success: true,
       message: "Order deleted successfully.",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+// Update/mark COD to paid
+export async function updateOrderToPaidCOD(orderId: string) {
+  try {
+    await updateOrderToPaid({
+      orderId,
+    });
+
+    revalidatePath(`/order/${orderId}`);
+
+    return {
+      success: true,
+      message: "Order marked as paid.",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+// Update COD order to delivered
+export async function updatedDeliverOrder(orderId: string) {
+  try {
+    // Find orderId from database
+    const order = await prisma.order.findFirst({
+      where: {id: orderId},
+    });
+
+    if (!order) throw new Error("Order not found.");
+    if (!order.isPaid) throw new Error("Order not paid!");
+
+    // Mark order as delivered in the database
+    await prisma.order.update({
+      where: {id: order.id},
+      data: {
+        isDelivered: true,
+        deliveredAt: new Date(),
+      },
+    });
+
+    return {
+      success: true,
+      message: "Order marked as paid and delivered.",
     };
   } catch (error) {
     return {
