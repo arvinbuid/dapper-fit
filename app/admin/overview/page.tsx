@@ -6,8 +6,8 @@ import {BadgeDollarSign, Barcode, CreditCardIcon, Users} from "lucide-react";
 import {formatCurrency, formatDateTime, formatNumber} from "@/lib/utils";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Link from "next/link";
-import {Badge} from "@/components/ui/badge";
 import Charts from "./charts";
+import {Button} from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
@@ -105,9 +105,9 @@ const AdminOverviewPage = async () => {
                     </TableCell>
                     <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                     <TableCell>
-                      <Link href={`/order/${order.id}`}>
-                        <Badge variant='outline'>Details</Badge>
-                      </Link>
+                      <Button size='sm' asChild variant='outline'>
+                        <Link href={`/order/${order.id}`}>Details</Link>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

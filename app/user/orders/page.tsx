@@ -5,6 +5,8 @@ import Link from "next/link";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Badge} from "@/components/ui/badge";
 import Pagination from "@/components/shared/pagination";
+import {auth} from "@/auth";
+import {Button} from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -12,6 +14,11 @@ export const metadata: Metadata = {
 
 const OrdersPage = async (props: {searchParams: Promise<{page: string}>}) => {
   const {page} = await props.searchParams;
+
+  const session = await auth();
+
+  if (session?.user?.role !== "user")
+    throw new Error("Admin not authorized to view this resource.");
 
   // Get orders
   const orders = await getMyOrders({
@@ -54,9 +61,9 @@ const OrdersPage = async (props: {searchParams: Promise<{page: string}>}) => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <Link href={`/order/${order.id}`}>
-                    <Badge variant='outline'>Details</Badge>
-                  </Link>
+                  <Button size='sm' asChild variant='outline'>
+                    <Link href={`/order/${order.id}`}>Details</Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

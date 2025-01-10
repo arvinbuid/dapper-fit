@@ -1,8 +1,10 @@
 import {auth} from "@/auth";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {getAllOrders} from "@/lib/actions/order.actions";
+import {deleteOrder, getAllOrders} from "@/lib/actions/order.actions";
 import {formatCurrency, formatDateTime, formatId} from "@/lib/utils";
 import {Metadata} from "next";
 import Link from "next/link";
@@ -64,10 +66,11 @@ const AdminOrdersPage = async (props: {
                     <Badge variant='destructive'>Not Delivered</Badge>
                   )}
                 </TableCell>
-                <TableCell>
-                  <Link href={`/order/${order.id}`}>
-                    <Badge variant='outline'>Details</Badge>
-                  </Link>
+                <TableCell className='flex items-center gap-2'>
+                  <Button size='sm' asChild variant='outline'>
+                    <Link href={`/order/${order.id}`}>Details</Link>
+                  </Button>
+                  <DeleteDialog id={order.id} action={deleteOrder} />
                 </TableCell>
               </TableRow>
             ))}
