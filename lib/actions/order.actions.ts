@@ -394,7 +394,7 @@ export async function updateDeliverOrder(orderId: string) {
 
     return {
       success: true,
-      message: "Order marked as paid and delivered.",
+      message: "Order marked as delivered.",
     };
   } catch (error) {
     return {
