@@ -6,13 +6,14 @@ import {insertProductSchema} from "@/lib/validators";
 import {Product} from "@/types";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useRouter} from "next/navigation";
-import {ControllerRenderProps, useForm} from "react-hook-form";
+import {ControllerRenderProps, SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
 import {Form, FormControl, FormField, FormItem, FormLabel} from "../ui/form";
 import {Input} from "../ui/input";
 import {Button} from "../ui/button";
 import {Textarea} from "../ui/textarea";
 import slugify from "slugify";
+import {createProduct, updateProduct} from "@/lib/actions/product.actions";
 
 const AdminProductForm = ({
   type,
@@ -31,12 +32,55 @@ const AdminProductForm = ({
     defaultValues: product && type === "Update" ? product : productDefaultValue,
   });
 
-  const onSubmit = () => {};
+  const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (values) => {
+    // On Create
+    if (type === "Create") {
+      const res = await createProduct(values);
+
+      if (!res.success) {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      } else {
+        toast({
+          variant: "default",
+          description: res.message,
+        });
+
+        router.push("/admin/products");
+      }
+    }
+
+    // On Update
+    if (type === "Update") {
+      if (!productId) {
+        router.push("/admin/products");
+        return;
+      }
+
+      const res = await updateProduct({...values, id: productId});
+
+      if (!res.success) {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      } else {
+        toast({
+          variant: "default",
+          description: res.message,
+        });
+
+        router.push("/admin/products");
+      }
+    }
+  };
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <form method='POST' onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
           <div className='flex flex-col md:flex-row gap-5'>
             {/* Name */}
             <FormField
