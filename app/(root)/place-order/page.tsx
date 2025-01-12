@@ -83,7 +83,13 @@ const PlaceOrderPage = async () => {
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link href={`/product/${item.slug}`} className='flex items-center'>
-                          <Image src={item.image} alt={item.name} width={50} height={50}></Image>
+                          <Image
+                            src={item.image}
+                            alt={item.name}
+                            width={50}
+                            height={50}
+                            unoptimized
+                          ></Image>
                           <span className='px-2'>{item.name}</span>
                         </Link>
                       </TableCell>
