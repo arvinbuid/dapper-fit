@@ -2,18 +2,21 @@
 
 import {useToast} from "@/hooks/use-toast";
 import {productDefaultValue} from "@/lib/constants";
-import {insertProductSchema} from "@/lib/validators";
+import {insertProductSchema, updateProductSchema} from "@/lib/validators";
 import {Product} from "@/types";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useRouter} from "next/navigation";
 import {ControllerRenderProps, SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
-import {Form, FormControl, FormField, FormItem, FormLabel} from "../ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "../ui/form";
 import {Input} from "../ui/input";
 import {Button} from "../ui/button";
 import {Textarea} from "../ui/textarea";
 import slugify from "slugify";
 import {createProduct, updateProduct} from "@/lib/actions/product.actions";
+import {UploadButton} from "@/lib/uploadthing";
+import {Card, CardContent} from "../ui/card";
+import Image from "next/image";
 
 const AdminProductForm = ({
   type,
@@ -28,7 +31,8 @@ const AdminProductForm = ({
   const {toast} = useToast();
 
   const form = useForm<z.infer<typeof insertProductSchema>>({
-    resolver: zodResolver(insertProductSchema),
+    resolver:
+      type === "Update" ? zodResolver(updateProductSchema) : zodResolver(insertProductSchema),
     defaultValues: product && type === "Update" ? product : productDefaultValue,
   });
 
@@ -77,6 +81,8 @@ const AdminProductForm = ({
     }
   };
 
+  const images = form.watch("images");
+
   return (
     <>
       <Form {...form}>
@@ -96,6 +102,7 @@ const AdminProductForm = ({
                   <FormControl>
                     <Input placeholder='Enter product name' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -109,11 +116,12 @@ const AdminProductForm = ({
                 field: ControllerRenderProps<z.infer<typeof insertProductSchema>, "slug">;
               }) => (
                 <FormItem className='w-full'>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Slug</FormLabel>
                   <div className='relative'></div>
                   <FormControl>
                     <Input placeholder='Enter slug' {...field} />
                   </FormControl>
+                  <FormMessage />
                   <Button
                     type='button'
                     className='text-white bg-gray-500 hover:bg-gray-600 mt-2'
@@ -143,6 +151,7 @@ const AdminProductForm = ({
                   <FormControl>
                     <Input placeholder='Enter category' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -161,6 +170,7 @@ const AdminProductForm = ({
                   <FormControl>
                     <Input placeholder='Enter product brand' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -181,6 +191,7 @@ const AdminProductForm = ({
                   <FormControl>
                     <Input placeholder='Enter price' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -199,11 +210,55 @@ const AdminProductForm = ({
                   <FormControl>
                     <Input placeholder='Enter stock' {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <div className='upload-field flex md:flex-row gap-5'>{/* Images */}</div>
+          <div className='upload-field flex md:flex-row gap-5'>
+            {/* Images */}
+            <FormField
+              control={form.control}
+              name='images'
+              render={() => (
+                <FormItem className='w-full'>
+                  <FormLabel>Images</FormLabel>
+                  <Card>
+                    <CardContent className='space-y-2 mt-2 min-h-48'>
+                      <div className='flex-start space-x-2'>
+                        {images.map((image: string) => (
+                          <Image
+                            key={image}
+                            src={image}
+                            alt='product image'
+                            className='w-20 h-20 object-cover object-center rounded-sm'
+                            width={100}
+                            height={100}
+                            unoptimized
+                          />
+                        ))}
+                        <FormControl>
+                          <UploadButton
+                            endpoint='imageUploader'
+                            onClientUploadComplete={(res: {url: string}[]) => {
+                              form.setValue("images", [...images, res[0].url]);
+                            }}
+                            onUploadError={(error: Error) => {
+                              toast({
+                                variant: "destructive",
+                                description: `ERROR! ${error.message}`,
+                              });
+                            }}
+                          />
+                        </FormControl>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className='upload-field'>{/* isFeatured */}</div>
           <div>
             {/* Description */}
@@ -225,6 +280,7 @@ const AdminProductForm = ({
                       className='resize-none'
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

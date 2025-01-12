@@ -15,6 +15,7 @@ const ProductImages = ({images}: {images: string[]}) => {
         height={1000}
         priority={true}
         className='object-fit object-cover min-h-[300px]'
+        unoptimized
       />
       <div className='flex'>
         {images.map((image, index) => (
@@ -26,7 +27,7 @@ const ProductImages = ({images}: {images: string[]}) => {
               current === index && "border-yellow-500"
             )}
           >
-            <Image src={image} alt='Product Image' width={100} height={100} />
+            <Image src={image} alt='Product Image' width={100} height={100} unoptimized />
           </div>
         ))}
       </div>

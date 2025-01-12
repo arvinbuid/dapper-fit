@@ -14,13 +14,7 @@ const ProductCard = ({product}: ProductProps) => {
     <Card className='w-full max-w-sm'>
       <CardHeader className='p-0 items-center'>
         <Link href={`/product/${product.slug}`}>
-          <Image
-            src={product.images[0]}
-            alt={product.name}
-            width={300}
-            height={300}
-            priority={true}
-          />
+          <Image src={product.images[0]} alt={product.name} width={300} height={300} unoptimized />
         </Link>
       </CardHeader>
       <CardContent className='p-4 grid gap-4'>
