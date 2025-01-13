@@ -134,3 +134,9 @@ export const updateUserProfileSchema = z.object({
     .email("Invalid email format.")
     .min(3, "Email must be atleast 5 characters long."),
 });
+
+// Update User Schema
+export const updateUserSchema = updateUserProfileSchema.extend({
+  id: z.string().min(1, "Id is required."),
+  role: z.string().min(4, "Role is required."),
+});
