@@ -25,7 +25,7 @@ const DeleteDialog = ({
   const [isPending, startTransition] = useTransition();
   const {toast} = useToast();
 
-  const handleDeleteOrder = () => {
+  const handleDelete = () => {
     startTransition(async () => {
       const res = await action(id);
 
@@ -55,13 +55,12 @@ const DeleteDialog = ({
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will delete your order and remove your data from our
-            database.
+            This action cannot be undone. This will delete your data from our database.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button variant='destructive' disabled={isPending} onClick={handleDeleteOrder}>
+          <Button variant='destructive' disabled={isPending} onClick={handleDelete}>
             {isPending ? "Deleting..." : "Continue"}
           </Button>
         </AlertDialogFooter>
