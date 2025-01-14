@@ -5,6 +5,7 @@ import {
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
+  updateUserSchema,
 } from "../validators";
 import {auth, signIn, signOut} from "@/auth";
 import {hash} from "@/lib/encrypt";
@@ -168,7 +169,7 @@ export async function updateUserProfile(user: {name: string; email: string}) {
 
     if (!currentUser) throw new Error("User not found.");
 
-    // Update the user
+    // Update user profile
     await prisma.user.update({
       where: {id: currentUser.id},
       data: {
@@ -223,6 +224,37 @@ export async function deleteUser(id: string) {
     return {
       success: true,
       message: "User deleted successfully.",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
+
+// Update user
+export async function updateUser(user: z.infer<typeof updateUserSchema>) {
+  try {
+    // Get session
+    const session = await auth();
+
+    if (session?.user?.role !== "admin") throw new Error("Unauthorized access!");
+
+    // Update user
+    await prisma.user.update({
+      where: {id: user.id},
+      data: {
+        name: user.name,
+        role: user.role,
+      },
+    });
+
+    revalidatePath("/admin/users");
+
+    return {
+      success: true,
+      message: "User updated successfully.",
     };
   } catch (error) {
     return {
