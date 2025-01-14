@@ -16,13 +16,15 @@ const AdminProductsPage = async (props: {
 }) => {
   const searchParams = await props.searchParams;
 
+  const session = await auth();
+
+  if (session?.user?.role !== "admin") throw new Error("User not authorized.");
+
   const page = Number(searchParams.page) || 1;
   const searchText = searchParams.query || "";
   const category = searchParams.category || "";
 
-  const session = await auth();
-
-  if (session?.user?.role !== "admin") throw new Error("User not authorized.");
+  console.log(searchText);
 
   const products = await getAllProducts({
     query: searchText,
@@ -33,8 +35,20 @@ const AdminProductsPage = async (props: {
   return (
     <div className='space-y-2'>
       <div className='flex-between'>
-        <h1 className='h2-bold mb-4'>Products</h1>
-        <Button asChild>
+        <div className='flex items-center gap-2'>
+          <h1 className='h2-bold mb-4'>Products</h1>
+          {searchText && (
+            <>
+              Filtered by <i>&quot;{searchText}&quot;</i>{" "}
+              <Link href='/admin/products'>
+                <Button variant='outline' size='sm'>
+                  Remove Filter
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
+        <Button asChild variant='default'>
           <Link href='/admin/products/create'>Create Product</Link>
         </Button>
       </div>
