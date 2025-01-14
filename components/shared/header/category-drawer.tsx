@@ -21,7 +21,7 @@ const CategoryDrawer = async () => {
           <Menu />
         </Button>
       </DrawerTrigger>
-      <DrawerContent className='h-full max-w-sm px-2 pt-6 flex items-center'>
+      <DrawerContent className='h-full max-w-xs md:max-w-sm px-2 pt-6 flex items-center'>
         <DrawerHeader>
           <DrawerTitle className='text-xl'>Select a category</DrawerTitle>
         </DrawerHeader>
