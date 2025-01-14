@@ -188,6 +188,11 @@ export async function updateUserProfile(user: {name: string; email: string}) {
 
 // Get all users
 export async function getAllUsers({limit = PAGE_SIZE, page}: {limit?: number; page: number}) {
+  // Get session
+  const session = await auth();
+
+  if (session?.user?.role !== "admin") throw new Error("User not authorized!");
+
   // Get users and pagination
   const data = await prisma.user.findMany({
     orderBy: {createdAt: "desc"},

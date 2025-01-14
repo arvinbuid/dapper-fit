@@ -1,3 +1,4 @@
+import {auth} from "@/auth";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import Pagination from "@/components/shared/pagination";
 import {Button} from "@/components/ui/button";
@@ -18,6 +19,10 @@ const AdminProductsPage = async (props: {
   const page = Number(searchParams.page) || 1;
   const searchText = searchParams.query || "";
   const category = searchParams.category || "";
+
+  const session = await auth();
+
+  if (session?.user?.role !== "admin") throw new Error("User not authorized.");
 
   const products = await getAllProducts({
     query: searchText,
