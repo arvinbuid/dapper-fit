@@ -1,6 +1,6 @@
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
-import ViewAllProductsButton from "@/components/shared/view-all-products- button";
+import ViewAllProductsButton from "@/components/shared/view-all-products-button";
 import {getLatestProducts, getFeaturedProducts} from "@/lib/actions/product.actions";
 const Homepage = async () => {
   const latestProducts = await getLatestProducts();
