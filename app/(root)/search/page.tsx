@@ -1,10 +1,34 @@
 import ProductCard from "@/components/shared/product/product-card";
-import {getAllProducts} from "@/lib/actions/product.actions";
+import {getAllCategories, getAllProducts} from "@/lib/actions/product.actions";
 import {Metadata} from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Search Result",
 };
+
+const prices = [
+  {
+    name: "$1 to $50",
+    value: "1-50",
+  },
+  {
+    name: "$51 to $100",
+    value: "51-100",
+  },
+  {
+    name: "$101 to $200",
+    value: "101-200",
+  },
+  {
+    name: "$201 to $500",
+    value: "201-500",
+  },
+  {
+    name: "$501 to $1000",
+    value: "501-1000",
+  },
+];
 
 const SearchPage = async (props: {
   searchParams: Promise<{
@@ -47,7 +71,7 @@ const SearchPage = async (props: {
     if (r) params.rating = r;
     if (pg) params.page = pg;
 
-    return `/search/${new URLSearchParams(params)}`;
+    return `/search?${new URLSearchParams(params)}`;
   };
 
   const products = await getAllProducts({
@@ -59,11 +83,70 @@ const SearchPage = async (props: {
     page: Number(page),
   });
 
+  const categories = await getAllCategories();
+
   return (
     <div className='grid md:grid-cols-5 md:gap-5'>
       <div className='filter-links'>
-        {/* Filter Links */}
-        URL: {getFilterUrl({c: "Mens Dress Shirts"})}
+        {/* Category Links */}
+        <div className='text-xl mb-2 mt-3'>Categories</div>
+        <div>
+          <ul>
+            <li>
+              {/* Any Category */}
+              <Link
+                className={`${
+                  (category === " " || category === "all") && "font-bold text-yellow-500"
+                }`}
+                href={getFilterUrl({c: "all"})}
+              >
+                {" "}
+                Any
+              </Link>
+            </li>
+            {/* Individual Categories */}
+            <li className='flex flex-col'>
+              {categories.map((c) => (
+                <Link
+                  key={c.category}
+                  className={`${category === c.category && "font-bold text-yellow-500"}`}
+                  href={getFilterUrl({c: c.category})}
+                >
+                  {c.category}
+                </Link>
+              ))}
+            </li>
+          </ul>
+        </div>
+        {/* Price Links */}
+        <div className='text-xl mb-2 mt-6'>Price</div>
+        <div>
+          <ul>
+            <li>
+              {/* Any Price */}
+              <Link
+                className={`${(price === " " || price === "all") && "font-bold text-yellow-500"}`}
+                href={getFilterUrl({p: "all"})}
+              >
+                {" "}
+                Any
+              </Link>
+            </li>
+            {/* Individual Price */}
+            <li className='flex flex-col'>
+              {prices.map((p) => (
+                <div key={p.name}>
+                  <Link
+                    className={`${price === p.value && "font-bold text-yellow-500"}`}
+                    href={getFilterUrl({p: p.value})}
+                  >
+                    {p.name}
+                  </Link>
+                </div>
+              ))}
+            </li>
+          </ul>
+        </div>
       </div>
       <div className='md:col-span-4 space-y-4'>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3'>
