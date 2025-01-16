@@ -7,11 +7,15 @@ import {notFound} from "next/navigation";
 import ProductImages from "@/components/shared/product/product-image";
 import AddToCart from "@/components/shared/product/add-to-cart";
 import {getUserCart} from "@/lib/actions/cart.actions";
+import ReviewList from "./review-list";
+import {auth} from "@/auth";
 
 const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
   const {slug} = await props.params;
 
   const cart = await getUserCart();
+  const session = await auth();
+  const userId = session?.user?.id;
 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
@@ -76,6 +80,10 @@ const ProductDetailsPage = async (props: {params: Promise<{slug: string}>}) => {
             </Card>
           </div>
         </div>
+      </section>
+      <section className='mt-10'>
+        <h2 className='h2-bold'>Customer Reviews</h2>
+        <ReviewList userId={userId || ""} productId={product.id} productSlug={product.slug} />
       </section>
     </>
   );
