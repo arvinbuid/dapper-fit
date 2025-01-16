@@ -3,6 +3,7 @@
 import {Product} from "@/types";
 import Link from "next/link";
 import {useState} from "react";
+import ReviewForm from "./review-form";
 
 const ReviewList = ({
   userId,
@@ -20,7 +21,9 @@ const ReviewList = ({
       <div className='space-y-2'>
         {reviews.length === 0 && <p>No reviews found.</p>}
         {userId ? (
-          <>{/*REVIEW FORM */}</>
+          <>
+            <ReviewForm userId={userId} productId={productId} />
+          </>
         ) : (
           <div>
             Please{" "}
