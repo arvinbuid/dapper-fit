@@ -16,13 +16,17 @@ const ReviewList = ({
 }) => {
   const [reviews, setReviews] = useState<Product[]>([]);
 
+  const reload = () => {
+    console.log("Review Submitted.");
+  };
+
   return (
     <>
       <div className='space-y-2'>
         {reviews.length === 0 && <p>No reviews found.</p>}
         {userId ? (
           <>
-            <ReviewForm userId={userId} productId={productId} />
+            <ReviewForm userId={userId} productId={productId} onReviewSubmitted={reload} />
           </>
         ) : (
           <div>

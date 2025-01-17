@@ -20,12 +20,13 @@ import {
 } from "@/components/ui/select";
 import {Textarea} from "@/components/ui/textarea";
 import {useToast} from "@/hooks/use-toast";
+import {createUpdateReview} from "@/lib/actions/review.actions";
 import {reviewFormDefaultValues} from "@/lib/constants";
 import {insertReviewSchema} from "@/lib/validators";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {StarIcon} from "lucide-react";
 import {useState} from "react";
-import {useForm} from "react-hook-form";
+import {SubmitHandler, useForm} from "react-hook-form";
 import {z} from "zod";
 
 const ReviewForm = ({
@@ -35,9 +36,9 @@ const ReviewForm = ({
 }: {
   userId: string;
   productId: string;
-  onReviewSubmitted?: () => void;
+  onReviewSubmitted: () => void;
 }) => {
-  const [open, isOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const {toast} = useToast();
 
   const form = useForm<z.infer<typeof insertReviewSchema>>({
@@ -46,17 +47,41 @@ const ReviewForm = ({
   });
 
   const handleFormOpen = () => {
-    isOpen(true);
+    form.setValue("productId", productId);
+    form.setValue("userId", userId);
+    setOpen(true);
+  };
+
+  const onSubmit: SubmitHandler<z.infer<typeof insertReviewSchema>> = async (values) => {
+    const res = await createUpdateReview({
+      ...values,
+      productId,
+    });
+
+    if (!res.success) {
+      return toast({
+        variant: "destructive",
+        description: res.message,
+      });
+    }
+
+    setOpen(false);
+
+    onReviewSubmitted();
+
+    return toast({
+      description: res.message,
+    });
   };
 
   return (
-    <Dialog open={open} onOpenChange={isOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <Button onClick={handleFormOpen} variant='default' size='sm'>
         Write a review
       </Button>
       <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
-          <form method='post'>
+          <form method='post' onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Write a Review</DialogTitle>
               <DialogDescription>Share your thoughts with other customers</DialogDescription>
