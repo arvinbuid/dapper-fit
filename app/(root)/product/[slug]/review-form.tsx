@@ -76,7 +76,7 @@ const ReviewForm = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <Button onClick={handleFormOpen} variant='default' size='sm'>
+      <Button onClick={handleFormOpen} variant='default' size='sm' className='mt-4'>
         Write a review
       </Button>
       <DialogContent className='sm:max-w-[425px]'>
