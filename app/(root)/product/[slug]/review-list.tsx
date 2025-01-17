@@ -39,13 +39,13 @@ const ReviewList = ({
   return (
     <>
       <div className='space-y-3'>
-        {reviews.length === 0 && <p>No reviews found.</p>}
+        {reviews.length === 0 && <p className='my-3'>No reviews found.</p>}
         {userId ? (
           <>
             <ReviewForm userId={userId} productId={productId} onReviewSubmitted={reload} />
           </>
         ) : (
-          <div>
+          <div className='mt-3 mb-5'>
             Please{" "}
             <Link href={`/sign-in?callbackUrl=/product/${productSlug}`} className='text-blue-700'>
               sign in
