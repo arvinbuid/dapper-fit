@@ -30,8 +30,10 @@ const ReviewList = ({
     loadReviews();
   }, [productId]);
 
-  const reload = () => {
-    console.log("Review Submitted.");
+  // Reload reviews after getting created or updated
+  const reload = async () => {
+    const res = await getReviews({productId});
+    setReviews([...res.data]);
   };
 
   return (
@@ -56,7 +58,7 @@ const ReviewList = ({
             <Card key={review.id}>
               <div className='flex-between'>
                 <CardHeader>
-                  <CardTitle>Reviews</CardTitle>
+                  <CardTitle>{review.title}</CardTitle>
                   <CardDescription>{review.description}</CardDescription>
                 </CardHeader>
               </div>
