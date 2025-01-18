@@ -1,6 +1,6 @@
 "use server";
 
-import {isRedirectError} from "next/dist/client/components/redirect-error";
+import {isRedirectError} from "next/dist/client/components/redirect";
 import {convertToPlainObject, formatError} from "../utils";
 import {auth} from "@/auth";
 import {getUserById} from "./user.actions";
