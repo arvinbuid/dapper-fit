@@ -119,13 +119,10 @@ export async function getOrderById(orderId: string) {
 }
 
 // Create new paypal order
-export async function createPayPalOrder(orderId: string) {
+export async function createPaypalOrder(orderId: string) {
   try {
-    // Get order from database
     const order = await prisma.order.findFirst({
-      where: {
-        id: orderId,
-      },
+      where: { id: orderId },
     });
 
     if (order) {
@@ -134,7 +131,7 @@ export async function createPayPalOrder(orderId: string) {
 
       // Update order with paypal order id
       await prisma.order.update({
-        where: { id: paypalOrder.id },
+        where: { id: orderId },
         data: {
           paymentResult: {
             id: paypalOrder.id,
@@ -151,7 +148,7 @@ export async function createPayPalOrder(orderId: string) {
         data: paypalOrder.id,
       };
     } else {
-      throw new Error('Order not found');
+      throw new Error('Order not found.');
     }
   } catch (error) {
     return { success: false, message: formatError(error) };
