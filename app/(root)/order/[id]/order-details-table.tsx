@@ -195,7 +195,6 @@ const OrderDetailsTable = ({
                             alt={item.name}
                             width={50}
                             height={50}
-                            unoptimized
                           />
                           <span className='px-2'>{item.name}</span>
                         </Link>
