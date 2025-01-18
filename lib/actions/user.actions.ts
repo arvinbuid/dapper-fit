@@ -9,7 +9,7 @@ import {
 } from "../validators";
 import {auth, signIn, signOut} from "@/auth";
 import {hash} from "@/lib/encrypt";
-import {isRedirectError} from "next/dist/client/components/redirect-error";
+import {isRedirectError} from "next/dist/client/components/redirect";
 import {prisma} from "@/db/prisma";
 import {formatError} from "../utils";
 import {ShippingAddress} from "@/types";
