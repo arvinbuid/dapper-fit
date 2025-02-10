@@ -70,7 +70,7 @@ const DealCountdown = () => {
             This deal is no longer available. Check out our latest promotions!
           </p>
 
-          <div className='text-center'>
+          <div className='text-center my-5'>
             <Button asChild>
               <Link href='/search'>View Products</Link>
             </Button>

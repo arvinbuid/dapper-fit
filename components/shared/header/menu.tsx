@@ -29,7 +29,9 @@ const Menu = () => {
             <EllipsisVertical />
           </SheetTrigger>
           <SheetContent className='flex flex-col items-start'>
-            <SheetTitle>Menu</SheetTitle>
+            <SheetTitle>
+              <h1 className='ml-3'>Menu</h1>
+            </SheetTitle>
             <ModeToggle />
             <Button asChild variant='ghost'>
               <Link href='/cart'>
