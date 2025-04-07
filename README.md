@@ -2,6 +2,8 @@
 
 A full featured Ecommerce website built with Next.js, TypeScript, PostgreSQL and Prisma.
 
+<img src='/public/images/project-showcase.png' alt='Dapper Fit'>
+
 ## Features
 
 - Next Auth authentication
