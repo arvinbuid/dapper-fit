@@ -1,8 +1,9 @@
 "use client";
 
-import {APP_NAME} from "@/lib/constants";
+import { APP_NAME } from "@/lib/constants";
 import Image from "next/image";
-import {Button} from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const NotFound = () => {
   return (
@@ -20,9 +21,8 @@ const NotFound = () => {
         <Button
           variant='outline'
           className='mt-4 ml-2'
-          onClick={() => (window.location.href = "/")}
         >
-          Back to Home
+          <Link href='/'>Back to Home</Link>
         </Button>
       </div>
     </div>
