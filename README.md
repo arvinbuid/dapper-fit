@@ -40,7 +40,6 @@ npm install
 ### Run
 
 ```bash
-
 # Run in development mode
 npm run dev
 
@@ -49,6 +48,5 @@ npm run build
 
 # Run in production mode
 npm start
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
